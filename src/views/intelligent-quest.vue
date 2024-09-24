@@ -29,29 +29,27 @@ export default {
     window.removeEventListener('resize', this.resizeChart); // 在销毁组件时移除监听
   },
   async created() {
-    let {
-      xData = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-      yData = [23, 24, 18, 25, 27, 28, 25]
-    } = await loadIntelligentQuestion({query: ''});
-
+    let data = await this.initData();
     // eslint-disable-next-line no-debugger
     debugger;
-
-    console.log("38", xData, yData)
-    this.option.xAxis.data = xData;
-    this.option.series[0].data = yData;
-    console.log("41", this.option)
+    let {X, Y} = data;
+    this.option.xAxis.data = X;
+    this.option.series[0].data = Y;
+    this.drawBar(this.option);
   },
   mounted() {
-    console.log("44", this.option)
-    this.drawBar(this.option);
     window.addEventListener('resize', this.resizeChart); // 窗口大小调整时，重新调整图表大小
   },
   methods: {
     drawBar(option) {
-      const chartDom = this.$refs.chart;
-      this.myChart = this.$echarts.init(chartDom);
-      this.myChart.setOption(option);
+      this.$nextTick(()=>{
+        const chartDom = this.$refs.chart;
+        this.myChart = this.$echarts.init(chartDom);
+        this.myChart.setOption(option);
+      })
+    },
+    async initData() {
+      return await loadIntelligentQuestion({query: ''});
     },
     resizeChart() {
       // 当窗口尺寸发生变化时，ECharts 会自动调整大小

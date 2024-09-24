@@ -1,4 +1,4 @@
-const port = 3000;
+const port = 8080;
 const name = 'PoC' // page title
 'use strict'
 const path = require('path')
@@ -24,6 +24,15 @@ module.exports = {
     //   warnings: false,
     //   errors: true
     // },
+    proxy:{
+      [process.env.VUE_APP_BASE_API]: {
+        target: `http://127.0.0.1:${port}/poc-cs`,
+        changeOrigin: true,
+        pathRewrite: {
+          ['^' + process.env.VUE_APP_BASE_API]: ''
+        }
+      }
+    }
   },
   configureWebpack: {
     // provide the app's title in webpack's name field, so that

@@ -14,13 +14,13 @@
 
     <!-- 表格展示 -->
     <el-table v-if="isTableView" :data="tableData" style="width: 100%; height: 100%" class="full-height-table">
-      <el-table-column prop="logtime" label="操作时间"></el-table-column>
+      <el-table-column prop="logTime" label="操作时间"></el-table-column>
       <el-table-column prop="cmd" label="命令内容"></el-table-column>
-      <el-table-column prop="agentConnectIP" label="操作主机 IP"></el-table-column>
+      <el-table-column prop="agentConnectIp" label="操作主机 IP"></el-table-column>
       <el-table-column prop="remark" label="备注"></el-table-column>
-      <el-table-column prop="tagname" label="标签"></el-table-column>
-      <el-table-column prop="loginuser" label="登录用户"></el-table-column>
-      <el-table-column prop="loginIP" label="登录 IP"></el-table-column>
+      <el-table-column prop="tagName" label="标签"></el-table-column>
+      <el-table-column prop="loginUser" label="登录用户"></el-table-column>
+      <el-table-column prop="loginIp" label="登录 IP"></el-table-column>
     </el-table>
 
     <!-- 柱状图展示 -->
@@ -29,57 +29,63 @@
 </template>
 
 <script>
+import {securityAnalysis, securityAnalysisGroup} from '@/api/server-api'
+
 export default {
   name: "high-risk-operation",
   data() {
     return {
       isTableView: false, // 控制是否展示表格
-      tableData: [
-        {
-          logtime: '2024-09-13 12:00:00',
-          cmd: 'ls -l',
-          agentConnectIP: '192.168.1.1',
-          remark: '查看目录',
-          tagname: 'Web Server',
-          loginuser: 'admin',
-          loginIP: '192.168.1.100',
-        },
-        {
-          logtime: '2024-09-13 12:05:00',
-          cmd: 'mkdir test',
-          agentConnectIP: '192.168.1.2',
-          remark: '创建目录',
-          tagname: 'Database Server',
-          loginuser: 'root',
-          loginIP: '192.168.1.101',
-        }
-      ],
+      tableData: [],
+      xAxisData: [],
+      seriesData: []
     };
   },
-  mounted() {
-    this.initChart(); // 初始化图表
+  async mounted() {
+    if (this.isTableView) {
+      this.tableData = await this.initData();
+    } else {
+      await this.initChart(); // 初始化图表
+    }
     window.addEventListener('resize', this.resizeChart); // 监听窗口大小变化
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.resizeChart); // 移除监听
   },
   methods: {
-    handleSwitchChange(value) {
+    async handleSwitchChange(value) {
       if (!value) {
         // 如果切换到图表视图，重新渲染图表
         this.$nextTick(() => {
           this.initChart();
         });
+      }else{
+        this.tableData = await this.initData();
       }
     },
-    initChart() {
+    async initData() {
+      const id = this.$route.params.id || '';
+      return await securityAnalysis({query: id});
+    },
+    async initChartData() {
+      const id = this.$route.params.id || '';
+      const type = this.$route.query.type || '';
+      console.log('id', id, 'type', type);
+      let data = await securityAnalysisGroup({query: id, groupType: type}) || [];
+      this.xAxisData = Object.keys(data);
+      this.seriesData = Object.values(data);
+      console.log(this.xAxisData,this.seriesData)
+    },
+    async initChart() {
       if (this.isTableView) return; // 切换到图表时才初始化
+
+      await this.initChartData();
 
       const chartDom = this.$refs.chart;
       this.myChart = this.$echarts.init(chartDom);
 
-      const xAxisData = this.tableData.map(item => item.logtime); // 使用 logtime 作为 x 轴数据
-      const seriesData = this.tableData.map(item => item.cmd.length); // 用命令长度作为示例数据
+      const xAxisData = this.xAxisData; // 使用 logTime 作为 x 轴数据
+      const seriesData = this.seriesData; // 用命令长度作为示例数据
 
       // ECharts 配置
       const option = {

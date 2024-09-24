@@ -5,9 +5,9 @@
     <!--      <router-link to="/about">About</router-link>-->
     <!--    </nav>-->
     <p>
-      <router-link to="/intelligent-quest">营销场景智能问数</router-link>
+      <router-link to="/intelligent-quest/1">营销场景智能问数</router-link>
       |
-      <router-link to="/high-risk-operation">安全高危操作分析报告生成</router-link>
+      <router-link to="/high-risk-operation/1">安全高危操作分析报告生成</router-link>
     </p>
     <router-view/>
   </div>

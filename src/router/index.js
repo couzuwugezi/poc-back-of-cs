@@ -13,10 +13,12 @@ const routes = [
   {
     path: '/intelligent-quest',
     name: 'intelligent-quest',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/intelligent-quest.vue')
+  },
+  {
+    path: '/high-risk-operation',
+    name: 'high-risk-operation',
+    component: () => import(/* webpackChunkName: "about" */ '../views/high-risk-operation.vue')
   }
 ]
 

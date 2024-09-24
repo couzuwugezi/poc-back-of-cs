@@ -1,8 +1,9 @@
 import request from '../utils/request'
 
-export function loadIntelligentQuestion() {
+export function loadIntelligentQuestion(params) {
     return request({
-        url: 'xxxx',
-        method: 'get'
+        url: '/changsha/intelligentData/execSqlMock',
+        method: 'get',
+        params: params
     })
 }

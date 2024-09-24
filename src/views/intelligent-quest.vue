@@ -1,9 +1,9 @@
 <template>
-  <div id="chart" ref="chart" style="width: 100%; height: 100%;"></div>
+  <div id="intelligent-quest" ref="chart" style="width: 100%; height: 100%;"></div>
 </template>
 
 <script>
-// import {loadIntelligentQuestion} from "@/api/server-api";
+import {loadIntelligentQuestion} from "@/api/server-api";
 
 export default {
   name: 'IntelligentQuestion',
@@ -28,16 +28,14 @@ export default {
   beforeDestroy() {
     window.removeEventListener('resize', this.resizeChart); // 在销毁组件时移除监听
   },
-  created() {
+  async created() {
+    let {
+      xData = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+      yData = [23, 24, 18, 25, 27, 28, 25]
+    } = await loadIntelligentQuestion({query: ''});
+
     // eslint-disable-next-line no-debugger
     debugger;
-    // let {
-    //   xData = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-    //   yData = [23, 24, 18, 25, 27, 28, 25]
-    // } = loadIntelligentQuestion();
-
-    let xData = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-    let yData = [23, 24, 18, 25, 27, 28, 25]
 
     console.log("38", xData, yData)
     this.option.xAxis.data = xData;
@@ -73,7 +71,7 @@ html, body, #app {
 }
 
 /* 设置组件根元素充满整个页面 */
-#chart {
+#intelligent-quest {
   width: 100%;
   height: 100%;
 }

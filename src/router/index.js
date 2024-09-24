@@ -11,12 +11,12 @@ const routes = [
     component: HomeView
   },
   {
-    path: '/intelligent-quest',
+    path: '/intelligent-quest/:id',
     name: 'intelligent-quest',
     component: () => import(/* webpackChunkName: "about" */ '../views/intelligent-quest.vue')
   },
   {
-    path: '/high-risk-operation',
+    path: '/high-risk-operation/:id',
     name: 'high-risk-operation',
     component: () => import(/* webpackChunkName: "about" */ '../views/high-risk-operation.vue')
   }

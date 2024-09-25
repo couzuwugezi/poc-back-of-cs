@@ -1,6 +1,5 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
     <HelloWorld msg="PoC for the Bank of ChangSha"/>
   </div>
 </template>

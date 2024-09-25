@@ -3,6 +3,8 @@ import App from './App.vue'
 import router from './router'
 import element from 'element-ui'
 import * as echarts from 'echarts'
+import md5 from 'js-md5';
+
 import moment from 'moment';
 
 
@@ -13,6 +15,7 @@ Vue.prototype.$echarts = echarts;
 moment.locale('zh-cn');
 
 Vue.use(element)
+Vue.prototype.$md5 = md5;
 
 new Vue({
   router,

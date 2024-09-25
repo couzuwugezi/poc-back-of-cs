@@ -9,19 +9,19 @@
 </template>
 
 <script>
-import {securityAnalysisGroup} from "@/api/server-api";
+import { securityAnalysisGroup } from "@/api/server-api";
 
 export default {
   name: "high-risk-operation-group",
   data() {
     return {
       chartsData: {
-        "tag-name": {xAxisData: [], seriesData: []},
-        "agent-connect-ip": {xAxisData: [], seriesData: []},
-        "cmd": {xAxisData: [], seriesData: []},
-        "login-user": {xAxisData: [], seriesData: []},
+        "tag-name": { xAxisData: [], seriesData: [] },
+        "agent-connect-ip": { xAxisData: [], seriesData: [] },
+        cmd: { xAxisData: [], seriesData: [] },
+        "login-user": { xAxisData: [], seriesData: [] }
       },
-      chartRefs: ["chart_tag-name", "chart_agent-connect-ip", "chart_cmd", "chart_login-user"],
+      chartRefs: ["chart_tag-name", "chart_agent-connect-ip", "chart_cmd", "chart_login-user"]
     };
   },
   async mounted() {
@@ -37,14 +37,15 @@ export default {
         this.initChartData("tag-name"),
         this.initChartData("agent-connect-ip"),
         this.initChartData("cmd"),
-        this.initChartData("login-user"),
+        this.initChartData("login-user")
       ]);
       this.chartRefs.forEach(ref => this.initChart(ref));
     },
 
     async initChartData(type) {
       const id = this.$route.params.id || "";
-      const data = (await securityAnalysisGroup({query: id, type: type.replaceAll("-", "_")})) || {};
+      const data =
+        (await securityAnalysisGroup({ query: id, type: type.replaceAll("-", "_") })) || {};
       this.chartsData[type].xAxisData = Object.keys(data);
       this.chartsData[type].seriesData = Object.values(data);
     },
@@ -53,18 +54,18 @@ export default {
       const chartDom = this.$refs[ref];
       const chartInstance = this.$echarts.init(chartDom);
       const type = ref.split("_")[1]; // 获取数据类型
-      const {xAxisData, seriesData} = this.chartsData[type];
+      const { xAxisData, seriesData } = this.chartsData[type];
 
       const option = {
-        title: {text: type.replaceAll("_", "-")},
+        title: { text: type.replaceAll("_", "-") },
         tooltip: {},
         xAxis: {
           type: "category",
           data: xAxisData,
-          axisLabel: {rotate: 45},
+          axisLabel: { rotate: 45 }
         },
-        yAxis: {type: "value"},
-        series: [{name: "", type: "bar", data: seriesData}],
+        yAxis: { type: "value" },
+        series: [{ name: "", type: "bar", data: seriesData }]
       };
 
       chartInstance.setOption(option);
@@ -78,8 +79,8 @@ export default {
           chartDom.__chartInstance__.resize();
         }
       });
-    },
-  },
+    }
+  }
 };
 </script>
 

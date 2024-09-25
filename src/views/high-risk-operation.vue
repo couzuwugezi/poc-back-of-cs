@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 100%; height: 100%;">
+  <div style="width: 100%; height: 100%">
     <!-- 表格展示 -->
     <el-table :data="tableData" style="width: 100%; height: 100%" class="full-height-table">
       <el-table-column prop="logTime" label="操作时间"></el-table-column>
@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import {securityAnalysis, securityAnalysisGroup} from '@/api/server-api'
+import { securityAnalysis, securityAnalysisGroup } from "@/api/server-api";
 
 export default {
   name: "high-risk-operation",
@@ -35,10 +35,10 @@ export default {
     } else {
       await this.initChart(); // 初始化图表
     }
-    window.addEventListener('resize', this.resizeChart); // 监听窗口大小变化
+    window.addEventListener("resize", this.resizeChart); // 监听窗口大小变化
   },
   beforeDestroy() {
-    window.removeEventListener('resize', this.resizeChart); // 移除监听
+    window.removeEventListener("resize", this.resizeChart); // 移除监听
   },
   methods: {
     async handleSwitchChange(value) {
@@ -52,17 +52,17 @@ export default {
       }
     },
     async initData() {
-      const id = this.$route.params.id || '';
-      return await securityAnalysis({query: id});
+      const id = this.$route.params.id || "";
+      return await securityAnalysis({ query: id });
     },
     async initChartData() {
-      const id = this.$route.params.id || '';
-      const type = this.$route.query.type || '';
-      console.log('id', id, 'type', type);
-      let data = await securityAnalysisGroup({query: id, type: type}) || [];
+      const id = this.$route.params.id || "";
+      const type = this.$route.query.type || "";
+      console.log("id", id, "type", type);
+      let data = (await securityAnalysisGroup({ query: id, type: type })) || [];
       this.xAxisData = Object.keys(data);
       this.seriesData = Object.values(data);
-      console.log(this.xAxisData, this.seriesData)
+      console.log(this.xAxisData, this.seriesData);
     },
     async initChart() {
       if (this.isTableView) return; // 切换到图表时才初始化
@@ -78,26 +78,26 @@ export default {
       // ECharts 配置
       const option = {
         title: {
-          text: '',
+          text: ""
         },
         tooltip: {},
         xAxis: {
-          type: 'category',
+          type: "category",
           data: xAxisData,
           axisLabel: {
-            rotate: 45, // 旋转 x 轴标签，避免过长重叠
-          },
+            rotate: 45 // 旋转 x 轴标签，避免过长重叠
+          }
         },
         yAxis: {
-          type: 'value',
+          type: "value"
         },
         series: [
           {
-            name: '命令长度',
-            type: 'bar',
-            data: seriesData,
-          },
-        ],
+            name: "命令长度",
+            type: "bar",
+            data: seriesData
+          }
+        ]
       };
 
       // 设置图表选项
@@ -107,13 +107,15 @@ export default {
       if (this.myChart) {
         this.myChart.resize(); // 窗口大小调整时，重绘图表
       }
-    },
-  },
+    }
+  }
 };
 </script>
 
 <style>
-html, body, #app {
+html,
+body,
+#app {
   height: 100%;
   margin: 0;
   padding: 0;

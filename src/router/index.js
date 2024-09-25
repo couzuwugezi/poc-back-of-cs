@@ -21,6 +21,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/high-risk-operation.vue')
   },
   {
+    path: '/high-risk-operation-group/:id',
+    name: 'high-risk-operation-group',
+    component: () => import(/* webpackChunkName: "about" */ '../views/high-risk-operation-group.vue')
+  },
+  {
     path: '/trouble-emergency-treatment',
     name: 'trouble-emergency-treatment',
     component: () => import(/* webpackChunkName: "about" */ '../views/trouble-emergency-treatment.vue'),

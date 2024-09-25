@@ -1,19 +1,7 @@
 <template>
   <div style="width: 100%; height: 100%;">
-    <!-- 使用 Switch 切换表格和图表 -->
-    <el-row style="margin-bottom: 20px;">
-      <el-col :span="24">
-        <el-switch
-            v-model="isTableView"
-            active-text="表格展示"
-            inactive-text="图表展示"
-            @change="handleSwitchChange"
-        ></el-switch>
-      </el-col>
-    </el-row>
-
     <!-- 表格展示 -->
-    <el-table v-if="isTableView" :data="tableData" style="width: 100%; height: 100%" class="full-height-table">
+    <el-table :data="tableData" style="width: 100%; height: 100%" class="full-height-table">
       <el-table-column prop="logTime" label="操作时间"></el-table-column>
       <el-table-column prop="cmd" label="命令内容"></el-table-column>
       <el-table-column prop="agentConnectIp" label="操作主机 IP"></el-table-column>
@@ -35,7 +23,7 @@ export default {
   name: "high-risk-operation",
   data() {
     return {
-      isTableView: false, // 控制是否展示表格
+      isTableView: true,
       tableData: [],
       xAxisData: [],
       seriesData: []
@@ -59,7 +47,7 @@ export default {
         this.$nextTick(() => {
           this.initChart();
         });
-      }else{
+      } else {
         this.tableData = await this.initData();
       }
     },
@@ -74,7 +62,7 @@ export default {
       let data = await securityAnalysisGroup({query: id, type: type}) || [];
       this.xAxisData = Object.keys(data);
       this.seriesData = Object.values(data);
-      console.log(this.xAxisData,this.seriesData)
+      console.log(this.xAxisData, this.seriesData)
     },
     async initChart() {
       if (this.isTableView) return; // 切换到图表时才初始化

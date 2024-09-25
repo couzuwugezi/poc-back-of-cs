@@ -91,7 +91,7 @@ export default {
     },
     async initData() {
       const id = this.$route.params.id || "";
-      return await loadIntelligentQuestion({ query: id });
+      return await loadIntelligentQuestion({ id });
     },
     resizeChart() {
       // 当窗口尺寸发生变化时，ECharts 会自动调整大小

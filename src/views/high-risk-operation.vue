@@ -71,7 +71,7 @@ export default {
       const id = this.$route.params.id || '';
       const type = this.$route.query.type || '';
       console.log('id', id, 'type', type);
-      let data = await securityAnalysisGroup({query: id, groupType: type}) || [];
+      let data = await securityAnalysisGroup({query: id, type: type}) || [];
       this.xAxisData = Object.keys(data);
       this.seriesData = Object.values(data);
       console.log(this.xAxisData,this.seriesData)

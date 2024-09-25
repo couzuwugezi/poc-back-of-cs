@@ -19,6 +19,16 @@ const routes = [
     path: '/high-risk-operation/:id',
     name: 'high-risk-operation',
     component: () => import(/* webpackChunkName: "about" */ '../views/high-risk-operation.vue')
+  },
+  {
+    path: '/trouble-emergency-treatment',
+    name: 'trouble-emergency-treatment',
+    component: () => import(/* webpackChunkName: "about" */ '../views/trouble-emergency-treatment.vue'),
+    children:[{
+      path: '/trouble-emergency-treatment-detail/:id',
+      name: 'trouble-emergency-treatment-detail',
+      component: () => import(/* webpackChunkName: "about" */ '../views/trouble-emergency-treatment-detail.vue')
+    }]
   }
 ]
 

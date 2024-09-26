@@ -23,3 +23,11 @@ export function securityAnalysisGroup(params) {
     params: params
   });
 }
+
+export function faultmanageDetail(params) {
+  return request({
+    url: "/changsha/intelligentData/faultmanage/detail",
+    method: "get",
+    params: params
+  });
+}

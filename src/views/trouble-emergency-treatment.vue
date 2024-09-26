@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import { faultmanageDetail } from "@/api/server-api.js";
 export default {
   name: "trouble-emergency-treatment",
   data() {
@@ -49,6 +50,11 @@ export default {
         apmData: ""
       }
     };
+  },
+  async created() {
+    let data = await faultmanageDetail();
+    console.log("faultmanageDetail", data);
+    this.formData = data;
   },
   mounted() {},
   methods: {}
